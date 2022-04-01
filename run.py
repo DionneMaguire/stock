@@ -1,4 +1,7 @@
-class Sales:
+class Sales():
+    """
+    creates an instance of Sales
+    """
     def __init__(self, item, quantity, is_audited):
         self.item = item
         self.quantity = quantity
@@ -10,12 +13,20 @@ def get_sales_data():
     """
     get sales figures from the user
     """
-    print("Please enter sales figures for the following items:")
-    data_str1 = input("Enter sales figures for coke here:")
-    print(f'The data provided is {data_str1}')
-    sales_1 = Sales('coke', data_str1, False)
-    sales = []
-    sales.append(sales_1)
-    print(sales_1._str_())
+    items = ['coke','fanta','water']
+    sales =[]
+    print("Please enter sales figures for the following items: ")
+    
+    for x in items:
 
-get_sales_data()
+        data_str = input(f"Enter sales figures for {x} here:")
+        print(f'The data provided for {x} is {data_str}')
+        salesx = Sales(x, data_str, False)
+    
+        sales.append(salesx)
+        print(salesx._str_())
+
+    return sales
+
+sales = get_sales_data()
+print(sales[0].item)
