@@ -1,3 +1,18 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
+class Sales:
+    def __init__(self, item, quantity, is_audited):
+        self.item = item
+        self.quantity = quantity
+        self.is_audited = is_audited
+    def _str_(self):
+        return f'{self.quantity} {self.item}'
+
+print("Please enter sales figures for the following items:")
+data_str1 = input("Enter sales figures for coke here:")
+print(f'The data provided is {data_str1}')
+sales_1 = Sales('coke', data_str1, False)
+sales = []
+sales.append(sales_1)
+print(sales_1._str_())
+
+
+        
