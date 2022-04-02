@@ -12,30 +12,6 @@ class Sales():
     def _str_(self):
         return f'{self.item} {self.quantity}'
 
-class Stock():
-    """
-    creates an instance of stock
-    """
-    def __init__(self, item, stock_quantity, reorder_level):
-        self.item = item
-        self.stock_quantity = stock_quantity
-        self.reorder_level = reorder_level
-    def _str_(self):
-        return f'{self.item} {self.stock_quantity} {self.reorder_level}'
-
-def create_stock_records(data):
-    """
-    creates stock instances for all items
-    """
-
-    stocks = []
-
-    for x in data:
-        stocksx = Stock(x,40,20)
-        stocks.append(stocksx)
-        print(stocksx._str_())
-
-    return stocks
 
 def get_sales_data(data):
     """
@@ -65,7 +41,6 @@ def update_stocks():
     
 
 items = ['coke','fanta','water']
-stocks = create_stock_records(items)
-print(stocks[1].reorder_level)
+
 sales = get_sales_data(items)
 print(sales[0].item)
