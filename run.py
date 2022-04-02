@@ -1,3 +1,6 @@
+import csv
+
+
 class Sales():
     """
     creates an instance of Sales
@@ -39,7 +42,7 @@ def get_sales_data(data):
     get sales figures from the user
     """
     
-    sales =[]
+    sales = []
     print("Please enter sales figures for the following items: ")
     
     for x in data:
