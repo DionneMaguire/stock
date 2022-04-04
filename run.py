@@ -1,6 +1,23 @@
 import csv
 
 
+def get_stock_figures():
+    """
+    read stock csv file into a dictionary
+    """
+
+    with open('csvfiles/stock.csv', mode='r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+
+        results = []
+
+        for row in csv_reader:
+            results.append(dict(row))
+
+        return results
+            
+
+
 class Sales():
     """
     creates an instance of Sales
@@ -15,7 +32,10 @@ class Sales():
 
 def get_sales_data(data):
     """
-    get sales figures from the user
+    get sales figures from the user.
+    check the inputted values are numbers, the loop
+    will repeatedly ask until it is valid. 
+    save them in a list called sales
     """
     
     sales = []
@@ -32,6 +52,22 @@ def get_sales_data(data):
 
     return sales
 
+def update_sales_csv(data, items):
+    """
+    Write sales figures to a sales.csv file
+    """
+    headings = ['item','quantity','is_audited']
+
+    with open('csvfiles/sales.csv', 'w') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(headings)
+
+        for data in data:
+            writer.writerow([data.item, data.quantity, data.is_audited])
+        
+    print("sales file successfully updated!")    
+
+
 def update_stocks():
     """
     gets the stock value for each item and takes away the sales 
@@ -39,8 +75,10 @@ def update_stocks():
     and write this back to the stock quantity in class
     """
     
-
+stocks = get_stock_figures()
+print(stocks)
 items = ['coke','fanta','water']
 
 sales = get_sales_data(items)
-print(sales[0].item)
+
+update_sales_csv(sales, items)
