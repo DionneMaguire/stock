@@ -35,7 +35,7 @@ def get_sales_data(data):
     get sales figures from the user.
     check the inputted values are numbers, the loop
     will repeatedly ask until it is valid. 
-    save them in a list called sales
+    Save the sales figures in a list called sales
     """
     
     sales = []
@@ -44,6 +44,7 @@ def get_sales_data(data):
     for x in data:
 
         data_str = input(f"Enter sales figures for {x} here:")
+
         print(f'The data provided for {x} is {data_str}')
         salesx = Sales(x, data_str, False)
     
@@ -68,12 +69,20 @@ def update_sales_csv(data, items):
     print("sales file successfully updated!")    
 
 
-def update_stocks():
+def update_stocks(stock_data, sales_data):
     """
     gets the stock value for each item and takes away the sales 
     figure inputted by the user to give the current stock value
-    and write this back to the stock quantity in class
+    and write this back to the stock quantity in csv file
     """
+    products = [d['item'] for d in stock_data]
+    quantities = [d['quantity'] for d in stock_data]
+    print(products)
+    print(quantities)
+
+        
+
+
     
 stocks = get_stock_figures()
 print(stocks)
@@ -82,3 +91,5 @@ items = ['coke','fanta','water']
 sales = get_sales_data(items)
 
 update_sales_csv(sales, items)
+
+update_stocks(stocks, sales)
