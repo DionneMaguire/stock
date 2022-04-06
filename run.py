@@ -1,12 +1,12 @@
 import csv
 
 
-def get_stock_figures():
+def get_figures_from_csv(file_name):
     """
     read stock csv file into a dictionary
     """
 
-    with open('csvfiles/stock.csv', mode='r') as csv_file:
+    with open(file_name, mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
 
         results = []
@@ -86,32 +86,26 @@ def update_stocks(stock_data, sales_data):
     """
     gets the stock value for each item and takes away the sales 
     figure inputted by the user to give the current stock value
-    and write this back to the stock quantity in csv file
+    and write this back to the stock quantity in csv file.
     """
-#    products = [d['item'] for d in stock_data]
-#    quantities = [d['quantity'] for d in stock_data]
-#    print(products)
-#    print(quantities)
     for i in stock_data:
         for j in sales_data:
-            print(stock_data[i].get('item'))
-            print(sales_data[j].get('item'))
-            if stock_data[i].get('item') == sales_data[j].get('item'):
-                updated_stock = int(stock_data[i].get('quantity')) - int(sales_data[j].get('quantity'))
-                print(updated_stock)
-                
-                 
+            if i['item'] == j['item']:
+                stock_updated = int(i['quantity']) - int(j['quantity'])
+                print(f"For {i['item']} updated stock is {stock_updated}")
 
-        
+
+
 
 
     
-stocks = get_stock_figures()
+stocks = get_figures_from_csv('csvfiles/stock.csv')
 print(stocks)
 items = ['coke','fanta','water']
 
 sales = get_sales_data(items)
 
 update_sales_csv(sales, items)
+sales_dict = get_figures_from_csv('csvfiles/sales.csv')
 
-#update_stocks(stocks, sales)
+update_stocks(stocks, sales_dict)
