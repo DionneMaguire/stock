@@ -33,7 +33,6 @@ def get_non_negative_int(prompt):
     while True:
         try:
             value = int(input(prompt))
-            print(value)
         except ValueError:
             print("Sorry, I didn't understand that.")
             continue
@@ -58,7 +57,6 @@ def get_sales_data(data):
     for x in data:
 
         data_str = get_non_negative_int(f"Enter sales figures for {x} here:")
-        print(data_str)
 
         print(f'The data provided for {x} is {data_str}')
         salesx = Sales(x, data_str, False)
@@ -113,7 +111,6 @@ print(stocks)
 items = ['coke','fanta','water']
 
 sales = get_sales_data(items)
-print(sales)
 
 update_sales_csv(sales, items)
 
