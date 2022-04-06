@@ -38,7 +38,7 @@ def get_non_negative_int(prompt):
         try:
             value = int(input(prompt))
         except ValueError:
-            print("Sorry, I didn't understand that.")
+            print("Sorry, your response must be a number")
             continue
         if value < 0:
             print("sorry, your response must not be negative.")
@@ -73,7 +73,7 @@ def get_sales_data(data):
     return sales
 
 
-def update_sales_csv(data, items):
+def update_sales_csv(data):
     """
     Write sales figures to a sales.csv file
     """
@@ -115,6 +115,22 @@ def update_stocks(stock_data, sales_data):
     return reorder_file
 
 
+def update_stock_csv(data):
+    """
+    Write updated stock figures to a stock.csv file
+    """
+    headings = ['item', 'quantity', 'reorder_level']
+
+    with open('csvfiles/stock.csv', 'w') as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=headings)
+        writer.writeheader()
+
+#        for data in data:
+        writer.writerows(data)
+        
+    print("stock file successfully updated!") 
+
+
 def main(): 
     """
     Main function 
@@ -125,11 +141,13 @@ def main():
 
     sales = get_sales_data(items)
 
-    update_sales_csv(sales, items)
+    update_sales_csv(sales)
     sales_dict = get_figures_from_csv('csvfiles/sales.csv')
 
     reorder_data = update_stocks(stocks, sales_dict)
     print(stocks)
     print(reorder_data)
+    update_stock_csv(stocks)
+#    update_reorder_csv(reorder_data)
 
 main()
