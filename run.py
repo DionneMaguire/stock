@@ -29,12 +29,26 @@ class Sales():
     def _str_(self):
         return f'{self.item} {self.quantity}'
 
+def get_non_negative_int(prompt):
+    while True:
+        try:
+            value = int(input(prompt))
+            print(value)
+        except ValueError:
+            print("Sorry, I didn't understand that.")
+            continue
+        if value < 0:
+            print("sorry, your response must not be negative.")
+            continue
+        else:
+            break
+    return value
 
 def get_sales_data(data):
     """
     get sales figures from the user.
-    check the inputted values are numbers, the loop
-    will repeatedly ask until it is valid. 
+    check numbers entered are positive numbers by
+    checking in get_non_negative_int function
     Save the sales figures in a list called sales
     """
     
@@ -43,7 +57,8 @@ def get_sales_data(data):
     
     for x in data:
 
-        data_str = input(f"Enter sales figures for {x} here:")
+        data_str = get_non_negative_int(f"Enter sales figures for {x} here:")
+        print(data_str)
 
         print(f'The data provided for {x} is {data_str}')
         salesx = Sales(x, data_str, False)
@@ -75,10 +90,19 @@ def update_stocks(stock_data, sales_data):
     figure inputted by the user to give the current stock value
     and write this back to the stock quantity in csv file
     """
-    products = [d['item'] for d in stock_data]
-    quantities = [d['quantity'] for d in stock_data]
-    print(products)
-    print(quantities)
+#    products = [d['item'] for d in stock_data]
+#    quantities = [d['quantity'] for d in stock_data]
+#    print(products)
+#    print(quantities)
+    for i in stock_data:
+        for j in sales_data:
+            print(stock_data[i].get('item'))
+            print(sales_data[j].get('item'))
+            if stock_data[i].get('item') == sales_data[j].get('item'):
+                updated_stock = int(stock_data[i].get('quantity')) - int(sales_data[j].get('quantity'))
+                print(updated_stock)
+                
+                 
 
         
 
@@ -89,7 +113,8 @@ print(stocks)
 items = ['coke','fanta','water']
 
 sales = get_sales_data(items)
+print(sales)
 
 update_sales_csv(sales, items)
 
-update_stocks(stocks, sales)
+#update_stocks(stocks, sales)
