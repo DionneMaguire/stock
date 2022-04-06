@@ -3,9 +3,8 @@ import csv
 
 def get_figures_from_csv(file_name):
     """
-    read stock csv file into a dictionary
+    read csv file into a dictionary
     """
-
     with open(file_name, mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
 
@@ -15,9 +14,8 @@ def get_figures_from_csv(file_name):
             results.append(dict(row))
 
         return results
-            
 
-
+         
 class Sales():
     """
     creates an instance of Sales
@@ -26,10 +24,16 @@ class Sales():
         self.item = item
         self.quantity = quantity
         self.is_audited = is_audited
+
     def _str_(self):
         return f'{self.item} {self.quantity}'
 
+
 def get_non_negative_int(prompt):
+    """
+    checks that the user input is a number 0 or greater
+    and not greater than 40 (initial stock)
+    """
     while True:
         try:
             value = int(input(prompt))
@@ -39,9 +43,12 @@ def get_non_negative_int(prompt):
         if value < 0:
             print("sorry, your response must not be negative.")
             continue
+        elif value > 40:
+            print("Sorry, your response must not be greater than 40")
         else:
             break
     return value
+
 
 def get_sales_data(data):
     """
@@ -50,7 +57,6 @@ def get_sales_data(data):
     checking in get_non_negative_int function
     Save the sales figures in a list called sales
     """
-    
     sales = []
     print("Please enter sales figures for the following items: ")
     
@@ -58,7 +64,7 @@ def get_sales_data(data):
 
         data_str = get_non_negative_int(f"Enter sales figures for {x} here:")
 
-        print(f'The data provided for {x} is {data_str}')
+        print(f'The sales data provided for {x} is {data_str}')
         salesx = Sales(x, data_str, False)
     
         sales.append(salesx)
@@ -66,11 +72,12 @@ def get_sales_data(data):
 
     return sales
 
+
 def update_sales_csv(data, items):
     """
     Write sales figures to a sales.csv file
     """
-    headings = ['item','quantity','is_audited']
+    headings = ['item', 'quantity', 'is_audited']
 
     with open('csvfiles/sales.csv', 'w') as csv_file:
         writer = csv.writer(csv_file)
@@ -86,26 +93,43 @@ def update_stocks(stock_data, sales_data):
     """
     gets the stock value for each item and takes away the sales 
     figure inputted by the user to give the current stock value
-    and write this back to the stock quantity in csv file.
+    and update the quantity in stock dictionary.
+    Then check if the updated stock value is below the reorder
+    level and if it is write the item and the current stock to
+    reorder_file.
     """
+    reorder_file = []
     for i in stock_data:
         for j in sales_data:
             if i['item'] == j['item']:
                 stock_updated = int(i['quantity']) - int(j['quantity'])
                 print(f"For {i['item']} updated stock is {stock_updated}")
+                i['quantity'] = stock_updated
+                if stock_updated < int(i['reorder_level']):
+                    print(f"Reorder {i['item']}, only have {stock_updated}")
+                    reorder = (i['item'], stock_updated)
+                    reorder_file.append(reorder)
+                else:
+                    continue
+    print("updated stock quantity")
+    return reorder_file
 
 
+def main(): 
+    """
+    Main function 
+    """
+    stocks = get_figures_from_csv('csvfiles/stock.csv')
+    print(stocks)
+    items = ['coke', 'fanta', 'water']
 
+    sales = get_sales_data(items)
 
+    update_sales_csv(sales, items)
+    sales_dict = get_figures_from_csv('csvfiles/sales.csv')
 
-    
-stocks = get_figures_from_csv('csvfiles/stock.csv')
-print(stocks)
-items = ['coke','fanta','water']
+    reorder_data = update_stocks(stocks, sales_dict)
+    print(stocks)
+    print(reorder_data)
 
-sales = get_sales_data(items)
-
-update_sales_csv(sales, items)
-sales_dict = get_figures_from_csv('csvfiles/sales.csv')
-
-update_stocks(stocks, sales_dict)
+main()
