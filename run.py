@@ -62,7 +62,7 @@ def get_sales_data(data):
     
     for x in data:
 
-        data_str = get_non_negative_int(f"Enter sales figures for {x} here:")
+        data_str = get_non_negative_int(f"Enter sales figures for {x} here:\n")
 
         print(f'The sales data provided for {x} is {data_str}')
         salesx = Sales(x, data_str, False)
