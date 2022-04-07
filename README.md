@@ -48,7 +48,7 @@ I used csv library to read from and write to the comma delimited files (csv file
 
 ### PEP8
 
-The python code was checked with PEP8 validator and passed with no errore found.
+The python code was checked with PEP8 validator and passed with no errors found.
 
 ### Manual Testing
 

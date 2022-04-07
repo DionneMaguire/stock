@@ -18,12 +18,12 @@ def get_figures_from_csv(file_name):
 
 def format_figures(data):
     """
-    format data to make it easier to read for user 
+    format data to make it easier to read for user
     """
     for i in data:
         print(f"{i['item']} stock available is: {i['quantity']}")
 
-         
+
 class Sales():
     """
     creates an instance of Sales
@@ -66,14 +66,14 @@ def get_sales_data(data):
     Save the sales figures in a list called sales
     """
     sales = []
-    
+   
     for x in data:
 
         data_str = get_non_negative_int(f"Enter sales figures for {x} here:\n")
 
         print(f'The sales data entered for {x} is {data_str}')
         salesx = Sales(x, data_str, False)
-    
+   
         sales.append(salesx)
 
     return sales
@@ -91,13 +91,13 @@ def write_sales_csv(data):
 
         for data in data:
             writer.writerow([data.item, data.quantity, data.is_audited])
-       
-    print("sales file successfully updated!")    
+      
+    print("sales file successfully updated!")  
 
 
 def update_stocks(stock_data, sales_data):
     """
-    gets the stock value for each item and takes away the sales 
+    gets the stock value for each item and takes away the sales
     figure inputted by the user to give the current stock quantity
     and update the quantity in stock dictionary.
     Then check if the updated stock value is below the reorder
@@ -109,34 +109,31 @@ def update_stocks(stock_data, sales_data):
         for j in sales_data:
             if i['item'] == j['item']:
                 stock_updated = int(i['quantity']) - int(j['quantity'])
-#                print(f"For {i['item']} updated stock is {stock_updated}")
                 i['quantity'] = stock_updated
                 if stock_updated < int(i['reorder_level']):
-#                    print(f"Reorder {i['item']}, only have {stock_updated}")
-                    reorder = (i['item'], stock_updated)
+                    reorder = {'item': i['item'], 'current_stock': stock_updated}
                     reorder_file.append(reorder)
                 else:
                     continue
-    
+
     print("updated stock quantity")
     return reorder_file
 
 
-def write_csv_file(data):
+def write_csv_file(data, headings, file):
     """
-    Write figures to a stock csv file
+    Write data to a csv file
     """
-    headings = ['item', 'quantity', 'reorder_level']
-    with open('csvfiles/stock.csv', 'w') as csv_file:
+    with open(file, 'w') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=headings)
         writer.writeheader()
 
-        writer.writerows(data)
-         
+        writer.writerows(data)     
+
 
 def reorder_print(data):
     """
-    Check if there are items for reorder and if not print 
+    Check if there are items for reorder and if not print
     message to user.
     """
     if data == []:
@@ -144,40 +141,24 @@ def reorder_print(data):
         print("Nothing needs to be reordered!")
         print("------------------------------")
     else:
-        print("---------------------------------------------------------------")
-        print("Items that need to be reordered and their current stock levels:")
-        print("---------------------------------------------------------------")
+        print("--------------------------------")
+        print("Items that need to be reordered:")
+        print("--------------------------------")
         print(data)
 
 
-def write_reorder_csv(data):
-    """
-    Write data from a list to a csv file
-    """
-    headings = ['item', 'current_stock']
-
-    with open('csvfiles/reorder.csv', 'w') as csv_file:
-        writer = csv.writer(csv_file)
-        writer.writerow(headings)
-
-        for data in data:
-            writer.writerow([data.item, data.current_stock])
-       
-    print("reorder file successfully updated!")    
-
-
-def main(): 
+def main():
     """
     Main function
     Need to set initial stock in csv file
     """
-    initial_stock = [{'item': 'coke', 'quantity': '40', 
-    'reorder_level': '20'},
-    {'item': 'fanta', 'quantity': '40', 'reorder_level': '20'},
-    {'item': 'water', 'quantity': '40', 'reorder_level': '20'}]
-
-    
-    write_csv_file(initial_stock)
+    initial_stock = [
+        {'item': 'coke', 'quantity': '40', 'reorder_level': '20'},
+        {'item': 'fanta', 'quantity': '40', 'reorder_level': '20'},
+        {'item': 'water', 'quantity': '40', 'reorder_level': '20'}
+        ]
+    stock_headings = ['item', 'quantity', 'reorder_level']
+    write_csv_file(initial_stock, stock_headings, 'csvfiles/stock.csv')
 
     stocks = get_figures_from_csv('csvfiles/stock.csv')
     format_figures(stocks)
@@ -190,9 +171,10 @@ def main():
     reorder_data = update_stocks(stocks, sales_dict)
     reorder_print(reorder_data)
 
-    write_csv_file(stocks)
+    write_csv_file(stocks, stock_headings, 'csvfiles/stock.csv')
 
-#    write_reorder_csv(reorder_data)
+    reorder_headings = ['item', 'current_stock']
+    write_csv_file(reorder_data, reorder_headings, 'csvfiles/reorder.csv')
 
 
 print("Welcome to Stock Program!")
