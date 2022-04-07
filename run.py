@@ -66,7 +66,7 @@ def get_sales_data(data):
     Save the sales figures in a list called sales
     """
     sales = []
-    print("Please enter sales figures for the following items: ")
+    print("Please enter sales figures below: ")
     
     for x in data:
 
@@ -100,7 +100,7 @@ def update_sales_csv(data):
 def update_stocks(stock_data, sales_data):
     """
     gets the stock value for each item and takes away the sales 
-    figure inputted by the user to give the current stock value
+    figure inputted by the user to give the current stock quantity
     and update the quantity in stock dictionary.
     Then check if the updated stock value is below the reorder
     level and if it is write the item and the current stock to
@@ -119,6 +119,7 @@ def update_stocks(stock_data, sales_data):
                     reorder_file.append(reorder)
                 else:
                     continue
+    
     print("updated stock quantity")
     return reorder_file
 
@@ -135,6 +136,19 @@ def write_stock_csv(data):
 
         writer.writerows(data)
          
+
+def reorder_update(data):
+    """
+    Check if there are items for reorder and if not print 
+    message to user.
+    """
+    if data == []:
+        print("------------------------")
+        print("Nothing to be reordered!")
+        print("------------------------")
+    else:
+        print("Items that need to be reordered and their current stock levels:")
+        print(data)
 
 
 def main(): 
@@ -158,9 +172,11 @@ def main():
     sales_dict = get_figures_from_csv('csvfiles/sales.csv')
 
     reorder_data = update_stocks(stocks, sales_dict)
-    print("Items that need to be reordered and their current stock levels:")
-    print(reorder_data)
+    reorder_update(reorder_data)
     write_stock_csv(stocks)
 #    update_reorder_csv(reorder_data)
 
+
+print("Welcome to Stock Program!")
+print("-------------------------\n")
 main()

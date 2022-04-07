@@ -1,21 +1,38 @@
 # STOCK PROGRAM
 
-Stock is a simple program that allows the user to input the sales quantity for 3 products (coke, fanta and water) and the program writes this sales information to a sales file (comma delimited file).  A current stock file (also comma delimited) holds the current stock levels of the 3 products and also the reorder level.  The program updates the stock levels and writes the updated stock back to the stock file.  The program then checks if the products need to be reordered, whether the stock level is below the reorder level and if so the product and the current stock level is printed to the console.
+Stock is a simple program that allows the user to input the sales quantity for 3 products (coke, fanta and water) and the program writes this sales information to a sales file (comma delimited file).  A current stock file (also comma delimited) holds the current stock levels of the 3 products and also the reorder level.  The program updates the stock levels and writes the updated stock back to the stock file.  The program then checks if the products need to be reordered, whether the stock level is below the reorder level and if so the product and the current stock level is printed to the console and also written to a reorder file(csv).
 
 ## UX
 
 ### For user:
 
-- to automate a stock process so that the can easily see after inputting their sales if they need to reorder stock and how much stock they currently have. 
+- to automate a stock process so that the user can easily see after inputting their sales if they need to reorder stock and how much stock they currently have. 
+
+### The data model
+
+#### Stock file: (this file is already set up)
+- item:
+- quantity:
+- reorder-level
+
+#### Sales file: (user inputs sales figures for each item)
+- item:
+- quantity:
+- is-audited:
+
+#### Reorder file: (this is calculated using the sales and stock files)
+- item:
+- current stock level:
 
 ## Flow Chart
 
 To create the structure of the stock program I created a flow chart using Lucid Charts:
+![flow chart](images/flowchart.png)
 
 ## Features
 
 The initial screen welcomes the user and shows the current stock levels.
-It then asks the user to input sales data for the products.  The program checks that the data entered is a non negative number and also that the sales figure is not greater than the stock levels.
+It then asks the user to input sales data for the items.  The program checks that the data entered is a non negative number and also that the sales figure is not greater than the stock levels i.e. 40.
 The program writes to a sales file.
 It uses the sales figures and the stock figures to work out the current stock level.  it then checks the current stock level against the reorder level, and if the stock level is below the reorder level, the product and the current stock level is written to the console and also a reorder file.
 
@@ -53,7 +70,7 @@ To deploy this page to Heroku from my GitHub repository I followed the steps bel
 - Once app is created you will see the overview panel of the application.
 - Go to the settings tab
 - Scroll down till you find Config Vars.
-Press the button Reveal Config Vars and enter PORT in the key field and 8000 in the value field.
+- Press the button Reveal Config Vars and enter PORT in the key field and 8000 in the value field.
 - Scroll down to buildpacks.
 - Click Add buildpacks and select Python and save.
 - Select node.js and save.
@@ -62,12 +79,14 @@ Press the button Reveal Config Vars and enter PORT in the key field and 8000 in 
 - from the deployment method select GitHub.
 - you will be asked to connect your github account, confirm and proceed.
 - search for your repository name and connect.
-- you can choose to automatically deploy or manually deploy.  Automatic means each time you push to gitHub it creates your heroku terminal. Manual option means you have to go into heroku each time you push changes to GitHub and press the deploy branch.
+- you can choose to automatically deploy or manually deploy.  
+- Automatic means each time you push to gitHub it creates your heroku terminal.  
+- Manual option means you have to go into heroku each time you push changes to GitHub and press the deploy branch.
 
 ## Technologies used
 
 - python
-- code institute built front-end built from the template
+- code institute front-end built from the template
 - heroku used to deploy
 
 ## Credits
@@ -75,4 +94,6 @@ Press the button Reveal Config Vars and enter PORT in the key field and 8000 in 
 - Multiple youtube videos on how to read from and write to csv files
 - love sandwiches for deployment process
 - stackoverflow for validation in a function
+- Lucidchart for my flow chart
+- tinyPNG to compress images
 
