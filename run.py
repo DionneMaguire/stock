@@ -16,12 +16,15 @@ def get_figures_from_csv(file_name):
         return results
 
 
-def format_figures(data):
+def format_figures(data, type):
     """
     format data to make it easier to read for user
     """
     for i in data:
-        print(f"{i['item']} stock available is: {i['quantity']}")
+        if type == 'stock':
+            print(f"{i['item']} stock available is: {i['quantity']}")
+        elif type == 'reorder':
+            print(f"{i['item']} current stock is {i['current_stock']}")
 
 
 class Sales():
@@ -144,7 +147,7 @@ def reorder_print(data):
         print("--------------------------------")
         print("Items that need to be reordered:")
         print("--------------------------------")
-        print(data)
+        format_figures(data, 'reorder')
 
 
 def main():
@@ -161,7 +164,7 @@ def main():
     write_csv_file(initial_stock, stock_headings, 'csvfiles/stock.csv')
 
     stocks = get_figures_from_csv('csvfiles/stock.csv')
-    format_figures(stocks)
+    format_figures(stocks, 'stock')
 
     items = ['coke', 'fanta', 'water']
     sales = get_sales_data(items)
