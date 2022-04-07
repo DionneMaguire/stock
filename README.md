@@ -32,9 +32,38 @@ To create the structure of the stock program I created a flow chart using Lucid 
 ## Features
 
 The initial screen welcomes the user and shows the current stock levels.
+
+![start of program](images/start_of_program.png)
+
 It then asks the user to input sales data for the items.  The program checks that the data entered is a non negative number and also that the sales figure is not greater than the stock levels i.e. 40.
+So if the user types letters or anything that is not a number, they get this message back and asked to enter the sales figures again
+
+![error message for not a number](images/error_not_number.png)
+
+If the user types a negative number, they get this message and asked to enter the sales figures again
+
+![error message for negative number](images/error_negative.png)
+
+If the user types a number greater than 40, (this is the initial stock of the items), they get this message and asked to enter the sales figures again
+
+![error message for a number greater than 40](images/error_greater_than_40.png)
+
+Even if nothing is entered or the user hits enter by accident, they get the following message
+
+![error message for nothing entered](images/error_nothing_entered.png)
+
 The program writes to a sales file.
-It uses the sales figures and the stock figures to work out the current stock level.  it then checks the current stock level against the reorder level, and if the stock level is below the reorder level, the product and the current stock level is written to the console and also a reorder file.
+A message comes up on the screen to tell the user that the sales file has been successfully updated.
+It uses the sales figures and the stock figures to work out the current stock level. 
+Another message comes up on the console to say that the stock quantity has been updated. 
+It then checks the current stock level against the reorder level, and if the stock level is below the reorder level, the product and the current stock level is written to the console and also a reorder file.
+
+If an item has stock below the reorder level then the item is written to the console with it's current stock
+![reorder information](images/reorder_details.png)
+
+If all the items have stock above the reorder level then there is nothing to reorder.
+
+![nothing to reorder](images/nothing_reorder.png)
 
 ### future features
 
