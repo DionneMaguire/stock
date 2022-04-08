@@ -74,22 +74,6 @@ def get_sales():
     return sales
 
 
-def write_sales_csv(data, headings):
-    """
-    Write data from a list to a csv file
-    """
-    
-
-    with open('csvfiles/sales.csv', 'w') as csv_file:
-        writer = csv.writer(csv_file)
-        writer.writerow(headings)
-
-        for data in data:
-            writer.writerow([data.item, data.quantity, data.is_audited])
-      
-    print("sales file successfully updated!")  
-
-
 def update_stocks(stock_data, sales_data):
     """
     gets the stock value for each item and takes away the sales
