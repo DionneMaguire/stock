@@ -74,29 +74,28 @@ def get_sales():
     return sales
 
 
-def update_stocks(stock_data, sales_data):
+def update_stocks(stocks, sales):
     """
-    gets the stock value for each item and takes away the sales
-    figure inputted by the user to give the current stock quantity
-    and update the quantity in stock dictionary.
-    Then check if the updated stock value is below the reorder
-    level and if it is write the item and the current stock to
-    reorder_file.
+    gets the stock quantity and takes away the sales to get current
+    stock and update quantity.
+    check if quantity now is below reorder level and if it is
+    write to reorder list.
     """
-    reorder_file = []
-    for i in stock_data:
-        for j in sales_data:
-            if i['item'] == j['item']:
-                stock_updated = int(i['quantity']) - int(j['quantity'])
-                i['quantity'] = stock_updated
-                if stock_updated < int(i['reorder_level']):
-                    reorder = {'item': i['item'], 'current_stock': stock_updated}
-                    reorder_file.append(reorder)
+    reorder_list = []
+    _stocks = stocks
+    for stock in _stocks:
+        for sale in sales:
+            if stock['item'] == sale['item']:
+                stock_updated = int(stock['quantity']) - int(sale['quantity'])
+                stock['quantity'] = stock_updated
+                if stock_updated < int(stock['reorder_level']):
+                    reorder = {'item': stock['item'], 'current_stock': stock_updated}
+                    reorder_list.append(reorder)
                 else:
                     continue
 
     print("updated stock quantity")
-    return reorder_file
+    return reorder_list, _stocks
 
 
 def write_csv_file(data, headings, file):
@@ -107,7 +106,7 @@ def write_csv_file(data, headings, file):
         writer = csv.DictWriter(csv_file, fieldnames=headings)
         writer.writeheader()
 
-        writer.writerows(data)     
+        writer.writerows(data)    
 
 
 def reorder_print(data):
@@ -145,12 +144,12 @@ def main():
     sales = get_sales()
     write_csv_file(sales, sales_headings, 'csvfiles/sales.csv')
 
-    reorder_data = update_stocks(stocks, sales)
-    reorder_print(reorder_data)
+    reorder_list, new_stocks = update_stocks(stocks, sales)
+    write_csv_file(new_stocks, stock_headings, 'csvfiles/stock.csv')
 
-    write_csv_file(stocks, stock_headings, 'csvfiles/stock.csv')
+    reorder_print(reorder_list)
 
-    write_csv_file(reorder_data, reorder_headings, 'csvfiles/reorder.csv')
+    write_csv_file(reorder_list, reorder_headings, 'csvfiles/reorder.csv')
 
 
 print("Welcome to Stock Program!")
