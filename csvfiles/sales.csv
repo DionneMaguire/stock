@@ -1,4 +1,4 @@
 item,quantity,is_audited
-coke,25,False
-fanta,36,False
-water,24,False
+coke,25,True
+fanta,26,True
+water,23,True

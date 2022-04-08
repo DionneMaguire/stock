@@ -87,11 +87,13 @@ def update_stocks(stocks, sales):
     """
     reorder_list = []
     _stocks = stocks
+    _sales = sales
     for stock in _stocks:
-        for sale in sales:
+        for sale in _sales:
             if stock['item'] == sale['item']:
                 stock_updated = int(stock['quantity']) - int(sale['quantity'])
                 stock['quantity'] = stock_updated
+                sale['is_audited'] = True
                 if stock_updated < int(stock['reorder_level']):
                     reorder = {'item': stock['item'], 
                                'current_stock': stock_updated}
@@ -100,10 +102,10 @@ def update_stocks(stocks, sales):
                     continue
 
     print("updated stock quantity")
-    return reorder_list, _stocks
+    return reorder_list, _stocks, _sales
 
 
-def write_csv_file(data, headings, file):
+def write_csv_file(figures, headings, file):
     """
     Write data to a csv file
     """
@@ -111,7 +113,7 @@ def write_csv_file(data, headings, file):
         writer = csv.DictWriter(csv_file, fieldnames=headings)
         writer.writeheader()
 
-        writer.writerows(data)    
+        writer.writerows(figures)    
 
 
 def reorder_print(list):
@@ -149,11 +151,13 @@ def main():
     sales = get_sales()
     write_csv_file(sales, sales_headings, 'csvfiles/sales.csv')
 
-    reorder_list, new_stocks = update_stocks(stocks, sales)
+    reorder_list, new_stocks, updated_sales = update_stocks(stocks, sales)
+    write_csv_file(updated_sales, sales_headings, 'csvfiles/sales.csv')  
     write_csv_file(new_stocks, stock_headings, 'csvfiles/stock.csv')
 
     reorder_print(reorder_list)
-    reorder_file_name = f'csvfiles/reorders/{datetime.now().strftime("%m_%d_%y_%H:%M")}.csv'
+    reorder_file_name = (
+        f'csvfiles/reorders/{datetime.now().strftime("%m_%d_%y_%H:%M")}.csv')
     write_csv_file(reorder_list, reorder_headings, reorder_file_name)
 
     print(f"You can also find your reorder list here {os.getcwd()}/{reorder_file_name}")
