@@ -5,20 +5,13 @@ stock_headings = ['item', 'quantity', 'reorder_level']
 sales_headings = ['item', 'quantity', 'is_audited']
 reorder_headings = ['item', 'current_stock']
 
-def get_figures_from_csv(file_name):
+def read_csv(file_name):
     """
     read csv file into a dictionary
     """
     with open(file_name, mode='r') as csv_file:
-        csv_reader = csv.DictReader(csv_file)
-
-        results = []
-
-        for row in csv_reader:
-            results.append(dict(row))
-
-        return results
-
+        return list(csv.DictReader(csv_file))
+        
 
 def format_figures(data, type):
     """
@@ -167,12 +160,12 @@ def main():
     
     write_csv_file(initial_stock, stock_headings, 'csvfiles/stock.csv')
 
-    stocks = get_figures_from_csv('csvfiles/stock.csv')
+    stocks = read_csv('csvfiles/stock.csv')
     format_figures(stocks, 'stock')
 
     sales = get_sales_data(products)
     write_sales_csv(sales, sales_headings)
-    sales_dict = get_figures_from_csv('csvfiles/sales.csv')
+    sales_dict = read_csv('csvfiles/sales.csv')
 
     reorder_data = update_stocks(stocks, sales_dict)
     reorder_print(reorder_data)
