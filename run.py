@@ -1,5 +1,9 @@
 import csv
 
+products = ['coke', 'fanta', 'water']
+stock_headings = ['item', 'quantity', 'reorder_level']
+sales_headings = ['item', 'quantity', 'is_audited']
+reorder_headings = ['item', 'current_stock']
 
 def get_figures_from_csv(file_name):
     """
@@ -82,11 +86,11 @@ def get_sales_data(data):
     return sales
 
 
-def write_sales_csv(data):
+def write_sales_csv(data, headings):
     """
     Write data from a list to a csv file
     """
-    headings = ['item', 'quantity', 'is_audited']
+    
 
     with open('csvfiles/sales.csv', 'w') as csv_file:
         writer = csv.writer(csv_file)
@@ -160,15 +164,14 @@ def main():
         {'item': 'fanta', 'quantity': '40', 'reorder_level': '20'},
         {'item': 'water', 'quantity': '40', 'reorder_level': '20'}
         ]
-    stock_headings = ['item', 'quantity', 'reorder_level']
+    
     write_csv_file(initial_stock, stock_headings, 'csvfiles/stock.csv')
 
     stocks = get_figures_from_csv('csvfiles/stock.csv')
     format_figures(stocks, 'stock')
 
-    items = ['coke', 'fanta', 'water']
-    sales = get_sales_data(items)
-    write_sales_csv(sales)
+    sales = get_sales_data(products)
+    write_sales_csv(sales, sales_headings)
     sales_dict = get_figures_from_csv('csvfiles/sales.csv')
 
     reorder_data = update_stocks(stocks, sales_dict)
@@ -176,7 +179,6 @@ def main():
 
     write_csv_file(stocks, stock_headings, 'csvfiles/stock.csv')
 
-    reorder_headings = ['item', 'current_stock']
     write_csv_file(reorder_data, reorder_headings, 'csvfiles/reorder.csv')
 
 
