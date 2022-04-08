@@ -26,7 +26,7 @@ def format_figures(data, type):
 
 class Sales():
     """
-    creates an instance of Sales
+    creates an instance of Sales class for a product
     """
     def __init__(self, item, quantity, is_audited):
         self.item = item
@@ -58,7 +58,7 @@ def get_non_negative_int(prompt):
     return value
 
 
-def get_sales_data(data):
+def get_sales():
     """
     get sales figures from the user.
     check numbers entered are positive numbers by
@@ -66,16 +66,11 @@ def get_sales_data(data):
     Save the sales figures in a list called sales
     """
     sales = []
-   
-    for x in data:
-
-        data_str = get_non_negative_int(f"Enter sales figures for {x} here:\n")
-
-        print(f'The sales data entered for {x} is {data_str}')
-        salesx = Sales(x, data_str, False)
-   
-        sales.append(salesx)
-
+  
+    for product in products:
+        quantity = get_non_negative_int(f"How much {product} did you sell?\n")
+        print(f'Sales of {quantity} of {product} has been recorded.')  
+        sales.append(Sales(product, quantity, False).__dict__)
     return sales
 
 
@@ -163,11 +158,10 @@ def main():
     stocks = read_csv('csvfiles/stock.csv')
     format_figures(stocks, 'stock')
 
-    sales = get_sales_data(products)
-    write_sales_csv(sales, sales_headings)
-    sales_dict = read_csv('csvfiles/sales.csv')
+    sales = get_sales()
+    write_csv_file(sales, sales_headings, 'csvfiles/sales.csv')
 
-    reorder_data = update_stocks(stocks, sales_dict)
+    reorder_data = update_stocks(stocks, sales)
     reorder_print(reorder_data)
 
     write_csv_file(stocks, stock_headings, 'csvfiles/stock.csv')
