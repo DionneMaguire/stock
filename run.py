@@ -1,9 +1,13 @@
+import os
+from datetime import datetime
 import csv
+
 
 products = ['coke', 'fanta', 'water']
 stock_headings = ['item', 'quantity', 'reorder_level']
 sales_headings = ['item', 'quantity', 'is_audited']
 reorder_headings = ['item', 'current_stock']
+
 
 def read_csv(file_name):
     """
@@ -89,7 +93,8 @@ def update_stocks(stocks, sales):
                 stock_updated = int(stock['quantity']) - int(sale['quantity'])
                 stock['quantity'] = stock_updated
                 if stock_updated < int(stock['reorder_level']):
-                    reorder = {'item': stock['item'], 'current_stock': stock_updated}
+                    reorder = {'item': stock['item'], 
+                               'current_stock': stock_updated}
                     reorder_list.append(reorder)
                 else:
                     continue
@@ -109,12 +114,12 @@ def write_csv_file(data, headings, file):
         writer.writerows(data)    
 
 
-def reorder_print(data):
+def reorder_print(list):
     """
     Check if there are items for reorder and if not print
     message to user.
     """
-    if data == []:
+    if list == []:
         print("------------------------------")
         print("Nothing needs to be reordered!")
         print("------------------------------")
@@ -122,7 +127,7 @@ def reorder_print(data):
         print("--------------------------------")
         print("Items that need to be reordered:")
         print("--------------------------------")
-        format_figures(data, 'reorder')
+        format_figures(list, 'reorder')
 
 
 def main():
@@ -148,10 +153,13 @@ def main():
     write_csv_file(new_stocks, stock_headings, 'csvfiles/stock.csv')
 
     reorder_print(reorder_list)
+    reorder_file_name = f'csvfiles/reorders/{datetime.now().strftime("%m_%d_%y_%H:%M")}.csv'
+    write_csv_file(reorder_list, reorder_headings, reorder_file_name)
 
-    write_csv_file(reorder_list, reorder_headings, 'csvfiles/reorder.csv')
+    print(f"You can also find your reorder list here {os.getcwd()}/{reorder_file_name}")
 
 
-print("Welcome to Stock Program!")
-print("-------------------------\n")
-main()
+if __name__ == "__main__":
+    print("Welcome to Stock Program!")
+    print("-------------------------\n")
+    main()
