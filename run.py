@@ -9,13 +9,41 @@ sales_headings = ['item', 'quantity', 'is_audited']
 reorder_headings = ['item', 'current_stock']
 
 
+class Stock():
+    def __init__(self, item, quantity, reorder_level):
+        self.item = item
+        self.quantity = quantity
+        self.reorder_level = reorder_level
+
+
+def user_input_stock():
+    """
+    user enters stock - item, quantity and reorder_level
+    check quantity and reorder_level are numbers and zero or greater
+    """
+    enter_new_stock = True
+    stocks = []
+    while enter_new_stock:
+        item = input("Enter name of product\n")
+        quantity = get_non_negative_int(
+            f"Enter current quantity of {item} in stock\n")
+        reorder_level = get_non_negative_int(
+            f"What quantity of {item} is reorder level\n")
+        stocks.append(Stock(item, quantity, reorder_level).__dict__)
+        enter_new_stock = input(
+            "Do you want to enter a new stock, enter yes\n") == "yes"
+
+    print(stocks)
+    return stocks
+
+
 def read_csv(file_name):
     """
     read csv file into a dictionary
     """
     with open(file_name, mode='r') as csv_file:
         return list(csv.DictReader(csv_file))
-        
+
 
 def format_figures(data, type):
     """
@@ -70,10 +98,10 @@ def get_sales():
     Save the sales figures in a list called sales
     """
     sales = []
-  
+
     for product in products:
         quantity = get_non_negative_int(f"How much {product} did you sell?\n")
-        print(f'Sales of {quantity} of {product} has been recorded.')  
+        print(f'Sales of {quantity} of {product} has been recorded.') 
         sales.append(Sales(product, quantity, False).__dict__)
     return sales
 
@@ -113,7 +141,7 @@ def write_csv_file(figures, headings, file):
         writer = csv.DictWriter(csv_file, fieldnames=headings)
         writer.writeheader()
 
-        writer.writerows(figures)    
+        writer.writerows(figures)   
 
 
 def reorder_print(list):
@@ -142,7 +170,7 @@ def main():
         {'item': 'fanta', 'quantity': '40', 'reorder_level': '20'},
         {'item': 'water', 'quantity': '40', 'reorder_level': '20'}
         ]
-    
+  
     write_csv_file(initial_stock, stock_headings, 'csvfiles/stock.csv')
 
     stocks = read_csv('csvfiles/stock.csv')
@@ -152,7 +180,7 @@ def main():
     write_csv_file(sales, sales_headings, 'csvfiles/sales.csv')
 
     reorder_list, new_stocks, updated_sales = update_stocks(stocks, sales)
-    write_csv_file(updated_sales, sales_headings, 'csvfiles/sales.csv')  
+    write_csv_file(updated_sales, sales_headings, 'csvfiles/sales.csv') 
     write_csv_file(new_stocks, stock_headings, 'csvfiles/stock.csv')
 
     reorder_print(reorder_list)
@@ -167,3 +195,5 @@ if __name__ == "__main__":
     print("Welcome to Stock Program!")
     print("-------------------------\n")
     main()
+#    input_stock = user_input_stock()
+#    write_csv_file(input_stock, stock_headings, 'csvfiles/stock.csv')

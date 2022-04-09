@@ -87,6 +87,8 @@ I checked with the user input that the data had to be a number, it had to be 0 o
 
 ### Bugs found
 
+line too long in code but couldn't find a way to put it over 2 lines that didn't throw an error
+
 ### unfixed bugs
 
 ## Deployment
