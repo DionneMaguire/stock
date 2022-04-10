@@ -3,7 +3,7 @@ from datetime import datetime
 import csv
 
 
-products = ['coke', 'fanta', 'water']
+#products = ['coke', 'fanta', 'water']
 stock_headings = ['item', 'quantity', 'reorder_level']
 sales_headings = ['item', 'quantity', 'is_audited']
 reorder_headings = ['item', 'current_stock']
@@ -26,9 +26,9 @@ def user_input_stock():
     while enter_new_stock:
         item = input("Enter name of product\n")
         quantity = get_non_negative_int(
-            f"Enter current quantity of {item} in stock\n")
+            f"Enter current quantity of {item} in stock\n", None)
         reorder_level = get_non_negative_int(
-            f"What quantity of {item} is reorder level\n")
+            f"What quantity of {item} is reorder level\n", None)
         stocks.append(Stock(item, quantity, reorder_level).__dict__)
         enter_new_stock = input(
             "Do you want to enter a new stock, enter yes\n") == "yes"
@@ -56,6 +56,16 @@ def format_figures(data, type):
             print(f"{i['item']} current stock is {i['current_stock']}")
 
 
+def get_list_products(stocks):
+    """
+    get a list of products from stock
+    """
+    products = []
+    for stock in stocks:
+        products.append(stock['item'])
+    return products
+
+
 class Sales():
     """
     creates an instance of Sales class for a product
@@ -69,10 +79,10 @@ class Sales():
         return f'{self.item} {self.quantity}'
 
 
-def get_non_negative_int(prompt):
+def get_non_negative_int(prompt, stock_level):
     """
     checks that the user input is a number 0 or greater
-    and not greater than 40 (initial stock)
+    and not greater than stock quantity of product
     """
     while True:
         try:
@@ -83,14 +93,14 @@ def get_non_negative_int(prompt):
         if value < 0:
             print("sorry, your response must not be negative.")
             continue
-        elif value > 40:
-            print("Sorry, your response must not be greater than 40")
+        elif (stock_level != None) and (value > stock_level):
+            print(f"Sorry, your response must not be greater than {stock_level}")
         else:
             break
     return value
 
 
-def get_sales():
+def get_sales(products, stocks):
     """
     get sales figures from the user.
     check numbers entered are positive numbers by
@@ -100,9 +110,12 @@ def get_sales():
     sales = []
 
     for product in products:
-        quantity = get_non_negative_int(f"How much {product} did you sell?\n")
-        print(f'Sales of {quantity} of {product} has been recorded.') 
-        sales.append(Sales(product, quantity, False).__dict__)
+        for stock in stocks:
+            if stock['item'] == product:
+                max_quantity = int(stock['quantity'])
+                quantity = get_non_negative_int(f"How much {product} did you sell?\n", max_quantity)
+                print(f'Sales of {quantity} of {product} has been recorded.') 
+                sales.append(Sales(product, quantity, False).__dict__)
     return sales
 
 
@@ -145,7 +158,7 @@ def write_csv_file(figures, headings, file):
         writer.writerows(figures)   
 
 
-def reorder_print(list):
+def reorder_print(list, reorder_file_name):
     """
     Check if there are items for reorder and if not print
     message to user.
@@ -167,18 +180,21 @@ def main():
     Main function
     Need to set initial stock in csv file
     """
-    initial_stock = [
-        {'item': 'coke', 'quantity': '40', 'reorder_level': '20'},
-        {'item': 'fanta', 'quantity': '40', 'reorder_level': '20'},
-        {'item': 'water', 'quantity': '40', 'reorder_level': '20'}
-        ]
-  
-    write_csv_file(initial_stock, stock_headings, 'csvfiles/stock.csv')
+#    initial_stock = [
+#        {'item': 'coke', 'quantity': '20', 'reorder_level': '20'},
+#        {'item': 'fanta', 'quantity': '30', 'reorder_level': '20'},
+#        {'item': 'water', 'quantity': '50', 'reorder_level': '20'}
+#        ]
+#  
+#    write_csv_file(initial_stock, stock_headings, 'csvfiles/stock.csv')
+    input_stock = user_input_stock()
+    write_csv_file(input_stock, stock_headings, 'csvfiles/stock.csv')
 
     stocks = read_csv('csvfiles/stock.csv')
     format_figures(stocks, 'stock')
+    products = get_list_products(stocks)
 
-    sales = get_sales()
+    sales = get_sales(products, stocks)
     write_csv_file(sales, sales_headings, 'csvfiles/sales.csv')
 
     reorder_list, new_stocks, updated_sales = update_stocks(stocks, sales)
@@ -188,7 +204,7 @@ def main():
     reorder_file_name = (
         f'csvfiles/reorders/{datetime.now().strftime("%m_%d_%y_%H:%M")}.csv')
     write_csv_file(reorder_list, reorder_headings, reorder_file_name)
-    reorder_print(reorder_list)
+    reorder_print(reorder_list, reorder_file_name)
 
     
 
@@ -196,5 +212,3 @@ if __name__ == "__main__":
     print("Welcome to Stock Program!")
     print("-------------------------\n")
     main()
-#    input_stock = user_input_stock()
-#    write_csv_file(input_stock, stock_headings, 'csvfiles/stock.csv')
