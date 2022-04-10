@@ -112,6 +112,7 @@ def update_stocks(stocks, sales):
     stock and update quantity.
     check if quantity now is below reorder level and if it is
     write to reorder list.
+    return reorder list, updated stocks and updated sales
     """
     reorder_list = []
     _stocks = stocks
@@ -158,6 +159,7 @@ def reorder_print(list):
         print("Items that need to be reordered:")
         print("--------------------------------")
         format_figures(list, 'reorder')
+        print(f"You can also find your reorder list here {os.getcwd()}/{reorder_file_name}")
 
 
 def main():
@@ -182,14 +184,13 @@ def main():
     reorder_list, new_stocks, updated_sales = update_stocks(stocks, sales)
     write_csv_file(updated_sales, sales_headings, 'csvfiles/sales.csv') 
     write_csv_file(new_stocks, stock_headings, 'csvfiles/stock.csv')
-
-    reorder_print(reorder_list)
+   
     reorder_file_name = (
         f'csvfiles/reorders/{datetime.now().strftime("%m_%d_%y_%H:%M")}.csv')
     write_csv_file(reorder_list, reorder_headings, reorder_file_name)
+    reorder_print(reorder_list)
 
-    print(f"You can also find your reorder list here {os.getcwd()}/{reorder_file_name}")
-
+    
 
 if __name__ == "__main__":
     print("Welcome to Stock Program!")
