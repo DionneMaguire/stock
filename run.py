@@ -92,8 +92,9 @@ def get_non_negative_int(prompt, stock_level):
         if value < 0:
             print("sorry, your response must not be negative.")
             continue
-        elif (stock_level != None) and (value > stock_level):
-            print(f"Sorry, your response must not be greater than {stock_level}")
+        elif (stock_level not None) and (value > stock_level):
+            print(
+                f"Sorry, your response must not be greater than {stock_level}")
         else:
             break
     return value
@@ -113,7 +114,7 @@ def get_sales(products, stocks):
             if stock['item'] == product:
                 max_quantity = int(stock['quantity'])
                 quantity = get_non_negative_int(
-                           f"What quantity of {product} did you sell?\n", max_quantity)
+                   f"What quantity of {product} did you sell?\n", max_quantity)
                 print(f'Sales of {quantity} of {product} has been recorded.')
                 sales.append(Sales(product, quantity, False).__dict__)
     return sales
@@ -156,7 +157,7 @@ def write_csv_file(figures, headings, file):
         writer = csv.DictWriter(csv_file, fieldnames=headings)
         writer.writeheader()
 
-        writer.writerows(figures)   
+        writer.writerows(figures)
 
 
 def reorder_print(list, reorder_file_name):
@@ -192,7 +193,7 @@ def main():
     write_csv_file(sales, sales_headings, 'csvfiles/sales.csv')
 
     reorder_list, new_stocks, updated_sales = update_stocks(stocks, sales)
-    write_csv_file(updated_sales, sales_headings, 'csvfiles/sales.csv') 
+    write_csv_file(updated_sales, sales_headings, 'csvfiles/sales.csv')
     write_csv_file(new_stocks, stock_headings, 'csvfiles/stock.csv')
    
     reorder_file_name = (
@@ -200,7 +201,6 @@ def main():
     write_csv_file(reorder_list, reorder_headings, reorder_file_name)
     reorder_print(reorder_list, reorder_file_name)
 
-    
 
 if __name__ == "__main__":
     print("Welcome to Stock Program!")
