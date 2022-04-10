@@ -3,7 +3,6 @@ from datetime import datetime
 import csv
 
 
-#products = ['coke', 'fanta', 'water']
 stock_headings = ['item', 'quantity', 'reorder_level']
 sales_headings = ['item', 'quantity', 'is_audited']
 reorder_headings = ['item', 'current_stock']
@@ -21,6 +20,7 @@ def user_input_stock():
     user enters stock - item, quantity and reorder_level
     check quantity and reorder_level are numbers and zero or greater
     """
+    print("Let's get your stock ready!")
     enter_new_stock = True
     stocks = []
     while enter_new_stock:
@@ -33,7 +33,6 @@ def user_input_stock():
         enter_new_stock = input(
             "Do you want to enter a new stock, enter yes\n") == "yes"
 
-    print(stocks)
     return stocks
 
 
@@ -113,16 +112,18 @@ def get_sales(products, stocks):
         for stock in stocks:
             if stock['item'] == product:
                 max_quantity = int(stock['quantity'])
-                quantity = get_non_negative_int(f"How much {product} did you sell?\n", max_quantity)
-                print(f'Sales of {quantity} of {product} has been recorded.') 
+                quantity = get_non_negative_int(
+                           f"What quantity of {product} did you sell?\n", max_quantity)
+                print(f'Sales of {quantity} of {product} has been recorded.')
                 sales.append(Sales(product, quantity, False).__dict__)
     return sales
 
 
 def update_stocks(stocks, sales):
     """
-    gets the stock quantity and takes away the sales to get current
-    stock and update quantity.
+    get the stock quantity and take away the sales to get current
+    stock and update quantity in stock.
+    update is_audited in sales
     check if quantity now is below reorder level and if it is
     write to reorder list.
     return reorder list, updated stocks and updated sales
@@ -172,21 +173,14 @@ def reorder_print(list, reorder_file_name):
         print("Items that need to be reordered:")
         print("--------------------------------")
         format_figures(list, 'reorder')
-        print(f"You can also find your reorder list here {os.getcwd()}/{reorder_file_name}")
+        print("You can also find your reorder list here:")
+        print(f"{os.getcwd()}/{reorder_file_name}")
 
 
 def main():
     """
     Main function
-    Need to set initial stock in csv file
     """
-#    initial_stock = [
-#        {'item': 'coke', 'quantity': '20', 'reorder_level': '20'},
-#        {'item': 'fanta', 'quantity': '30', 'reorder_level': '20'},
-#        {'item': 'water', 'quantity': '50', 'reorder_level': '20'}
-#        ]
-#  
-#    write_csv_file(initial_stock, stock_headings, 'csvfiles/stock.csv')
     input_stock = user_input_stock()
     write_csv_file(input_stock, stock_headings, 'csvfiles/stock.csv')
 
