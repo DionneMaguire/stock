@@ -1,2 +1,4 @@
 item,quantity,reorder_level
-coke,30,20
+coke,10,20
+fanta,2,30
+water,10,40

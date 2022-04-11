@@ -9,6 +9,9 @@ reorder_headings = ['item', 'current_stock']
 
 
 class Stock():
+    """
+    creates an instance of stock class for a product
+    """
     def __init__(self, item, quantity, reorder_level):
         self.item = item
         self.quantity = quantity
@@ -28,10 +31,10 @@ def user_input_stock():
         quantity = get_non_negative_int(
             f"Enter current quantity of {item} in stock\n", None)
         reorder_level = get_non_negative_int(
-            f"What quantity of {item} is reorder level\n", None)
+            f"What quantity of {item} is reorder level?\n", None)
         stocks.append(Stock(item, quantity, reorder_level).__dict__)
         enter_new_stock = input(
-            "Do you want to enter a new stock, enter yes\n") == "yes"
+            "Do you want to enter a new product? enter yes\n") == "yes"
 
     return stocks
 
@@ -92,7 +95,7 @@ def get_non_negative_int(prompt, stock_level):
         if value < 0:
             print("sorry, your response must not be negative.")
             continue
-        elif (stock_level not None) and (value > stock_level):
+        elif (stock_level is not None) and (value > stock_level):
             print(
                 f"Sorry, your response must not be greater than {stock_level}")
         else:
@@ -145,7 +148,6 @@ def update_stocks(stocks, sales):
                 else:
                     continue
 
-    print("updated stock quantity")
     return reorder_list, _stocks, _sales
 
 
@@ -162,8 +164,9 @@ def write_csv_file(figures, headings, file):
 
 def reorder_print(list, reorder_file_name):
     """
-    Check if there are items for reorder and if not print
-    message to user.
+    Check if there are items for reorder and print
+    them to the console and if not print
+    message to user that nothing needs reordered
     """
     if list == []:
         print("------------------------------")
@@ -195,7 +198,7 @@ def main():
     reorder_list, new_stocks, updated_sales = update_stocks(stocks, sales)
     write_csv_file(updated_sales, sales_headings, 'csvfiles/sales.csv')
     write_csv_file(new_stocks, stock_headings, 'csvfiles/stock.csv')
-   
+
     reorder_file_name = (
         f'csvfiles/reorders/{datetime.now().strftime("%m_%d_%y_%H:%M")}.csv')
     write_csv_file(reorder_list, reorder_headings, reorder_file_name)

@@ -37,7 +37,7 @@ To create the structure of the stock program I created a flow chart using Lucid 
 
 ![start of program](images/initial_screen.png)
 
-2 When the user enters the name of the product, the user is asked to enter the current quantity of the product in stock. The program checks that the user enters a valid number 0 or greater.
+2 When the user enters the name of the product, the user is asked to enter the current quantity of the product in stock. The program checks that the user enters a valid number that is not negative.
 
 ![asked to enter stock quantity](images/stock_enter_quantity.png)
 
@@ -49,7 +49,7 @@ If the user enters a negative number an error message is printed and they are as
 
 ![stock negative number](images/stock_minus.png)
 
-3 When the user enters the stock quantity of the product, they are then asked for the reorder quantity of the product. The program again checks the user enters a valid number 0 or greater, if a number is not entered or a negative number is enetered similar messages to above are printed and the user is asked to reenter the data.
+3 When the user enters the stock quantity of the product, they are then asked for the reorder quantity of the product. The program again checks the user enters a valid number that is not negative, if a number is not entered or a negative number is entered similar messages to above are printed and the user is asked to reenter the data.
 
 ![asked to enter reorder quantity](images/stock_enter_reorder.png)
 
@@ -61,11 +61,11 @@ If the user enters a negative number an error message is printed and they are as
 
 ![yes to enter new stock](images/yes_new_stock.png)
 
-6 If the user answers no, to do you want to enter a new stock, the program prints each product entered by the user, with the stock quantity.  It then asks the user what quantity of the first product entered did they sell.
+6 If the user answers no to do you want to enter a new stock, the program prints each product entered by the user, with the stock quantity.  It then asks the user what quantity of the first product entered did they sell.
 
 ![finished entering stock](images/prints_stock.png)
 
-7 When the user enters the quantity of the product sold, the program checks that what the user enters is a valid number 0 or greater. It also checks that the amount entered by the user is not greater than the stock of the product. The program prints "Sales of 40 of coke has been recorded."  This is to highlight to the user what quantity was entered for sales.
+7 When the user enters the quantity of the product sold, the program checks that what the user enters is a valid number that is not negative. It also checks that the amount entered by the user is not greater than the stock of the product. The program prints "Sales of 40 of coke has been recorded."  This is to highlight to the user what quantity was entered for sales.
 
 ![asked to enter sales](images/enter_sales.png)
 
@@ -87,11 +87,11 @@ If the number entered is greater than the stock of that product, an error messag
 
 9 The program gets the stock and takes away the sales quantity, to give the new stock quantity. 
 The program updates the quantity in the stock file and updates the is_audited field in the sales file to True.
-It then checks the reorder quantity and if the new stock quantity is below the reorder quantity, the product is written to the console with the new stock quantity.  This is done for each product.
+It then checks the reorder quantity and if the new stock quantity is below the reorder quantity, the product is written to the console with the new stock quantity.  This is done for each product that needs to be reordered.
 
 ![reorder products printed](images/reorder.png)
 
-10 The reorder products are also written to a reorder file with the same information that is printed to the console.  This reorder comma delimited file has a date and time stamp so that if the program is run multiple times in a day the user will be able to tell the files appart. Finally the path to the comma delimited reorder file is printed to the console so that the user can get access to the file if needed.
+10 The products that need to be reordered are also written to a reorder file with the same information that is printed to the console.  This reorder comma delimited file has a date and time stamp so that if the program is run multiple times in a day the user will be able to tell the files appart. Finally the path to the comma delimited reorder file is printed to the console so that the user can get access to the file if needed.
 
 ![path to reorder file](images/file_path.png)
 
@@ -100,7 +100,7 @@ It then checks the reorder quantity and if the new stock quantity is below the r
 ![nothing to reorder](images/nothing_to_reorder.png)
 
 
-### future features
+### Future Features
 
 Allow the user to update the stock when they have reordered stock.
 
@@ -130,11 +130,13 @@ I checked that the is_audited field was updated in the sales file.
 I checked that the correct products and quantities were printed for reorder and also written to the reorder file.
 I checked when there was nothing to be reordered that the correct message was printed to the console.
 I checked that a reorder file was created with the correct date and time stamp.
+I checked all of the above in the development environment and in the deployed site.
 
 ### Bugs found
 
 
-### unfixed bugs
+
+### Unfixed bugs
 
 The date and time stamp on the reorder file is UTC timezone, Ireland is UTC +1. 
 
@@ -176,6 +178,6 @@ To deploy this page to Heroku from my GitHub repository I followed the steps bel
 - stackoverflow for validation in a function
 - Lucidchart for my flow chart
 - tinyPNG to compress images
-- Okwudiri Okoro, my mentor for his help and also for aspiring me!
+- Okwudiri Okoro, my mentor for his help and for inspiring me to make my project better!
 - My MSLETB cohort for their support and sharing knowledge 
 
