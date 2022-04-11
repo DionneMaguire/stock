@@ -134,11 +134,14 @@ I checked all of the above in the development environment and in the deployed si
 
 ### Bugs found
 
+I had hard coded the products file in the beginning for testing but when I then added that the user could input stocks I was never finding getting sales['item'] to equal stock['item'], I had to create a function to write a product list from the stocks file after the user has entered all thier products.
 
 
 ### Unfixed bugs
 
-The date and time stamp on the reorder file is UTC timezone, Ireland is UTC +1. 
+The date and time stamp on the reorder file is UTC timezone, Ireland is UTC +1. I thought I had coded something incorrectly but thankfully not. 
+
+I have 2 nested for loops in my program and I researched but could not find another way to make this code simpler.
 
 ## Deployment
 
