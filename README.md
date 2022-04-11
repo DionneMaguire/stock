@@ -118,30 +118,30 @@ The python code was checked with PEP8 validator and passed with no errors found.
 
 ### Manual Testing
 
-I checked that when I entered something that wasn't a number for the current stock quantity I got the error message.
-I checked if I entered a negative number for stock quantity that I got the error message.
-I checked if I didn't enter anything for stock quantity that I got an error message.
-I checked that when i entered a non number or nothing for sales quantity, that I got an error message.
-I checked that when I entered a negative number for sales quantity that I got an error message.
-I checked when I entered a number greater than the current stock, that I got an error message.
-I checked when I entered valid data that it was correctly printed to the console and also to the files.
-I checked that the updated stock quantity was correct in the stock file.
-I checked that the is_audited field was updated in the sales file.
-I checked that the correct products and quantities were printed for reorder and also written to the reorder file.
-I checked when there was nothing to be reordered that the correct message was printed to the console.
-I checked that a reorder file was created with the correct date and time stamp.
-I checked all of the above in the development environment and in the deployed site.
+- I checked that when I entered something that wasn't a number for the current stock quantity I got the error message.
+- I checked if I entered a negative number for stock quantity that I got the error message.
+- I checked if I didn't enter anything for stock quantity that I got an error message.
+- I checked that when i entered a non number or nothing for sales quantity, that I got an error message.
+- I checked that when I entered a negative number for sales quantity that I got an error message.
+- I checked when I entered a number greater than the current stock, that I got an error message.
+- I checked when I entered valid data that it was correctly printed to the console and also to the files.
+- I checked that the updated stock quantity was correct in the stock file.
+- I checked that the is_audited field was updated in the sales file.
+- I checked that the correct products and quantities were printed for reorder and also written to the reorder file.
+- I checked when there was nothing to be reordered that the correct message was printed to the console.
+- I checked that a reorder file was created with the correct date and time stamp.
+- I checked all of the above in the development environment and in the deployed site.
 
 ### Bugs found
 
-I had hard coded the products file in the beginning for testing but when I then added that the user could input stocks I was never finding getting sales['item'] to equal stock['item'], I had to create a function to write a product list from the stocks file after the user has entered all thier products.
-
+I had hard coded the products file in the beginning for testing but when I then added that the user could input stocks I was never finding getting sales['item'] to equal stock['item'], I had to create a function to write a product list from the stocks file after the user has entered all their products.
+I had hard coded the stock quantity for the check to make sure sales quantity was not greater than the stock of the product, when the users could enter any non negative number i had to find a way to pass it to the checking function.
 
 ### Unfixed bugs
 
 The date and time stamp on the reorder file is UTC timezone, Ireland is UTC +1. I thought I had coded something incorrectly but thankfully not. 
 
-I have 2 nested for loops in my program and I researched but could not find another way to make this code simpler.
+I have 2 nested for loops in my program and I researched but could not find another way in the time I had to make this code simpler, one for the future!
 
 ## Deployment
 
@@ -156,6 +156,7 @@ To deploy this page to Heroku from my GitHub repository I followed the steps bel
 - Go to the settings tab
 - Scroll down till you find Config Vars.
 - Press the button Reveal Config Vars and enter PORT in the key field and 8000 in the value field.
+- I didn't need a creds file, but if you had you would need to create a Config Vars for the creds file here.
 - Scroll down to buildpacks.
 - Click Add buildpacks and select Python and save.
 - Select node.js and save.

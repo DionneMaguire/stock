@@ -21,7 +21,7 @@ class Stock():
 def user_input_stock():
     """
     user enters stock - item, quantity and reorder_level
-    check quantity and reorder_level are numbers and zero or greater
+    check quantity and reorder_level are non negative numbers
     """
     print("Let's get your stock ready!")
     enter_new_stock = True
@@ -83,8 +83,10 @@ class Sales():
 
 def get_non_negative_int(prompt, stock_level):
     """
-    checks that the user input is a number 0 or greater
-    and not greater than stock quantity of product
+    if checking stock input it checks the user input
+    is a non negative number.
+    if checking sales input it also checks that the
+    user input is not greater than the stcok_level.
     """
     while True:
         try:
@@ -106,7 +108,7 @@ def get_non_negative_int(prompt, stock_level):
 def get_sales(products, stocks):
     """
     get sales figures from the user.
-    check numbers entered are positive numbers by
+    check numbers entered are non negative numbers by
     checking in get_non_negative_int function
     Save the sales figures in a list called sales
     """
@@ -165,8 +167,9 @@ def write_csv_file(figures, headings, file):
 def reorder_print(list, reorder_file_name):
     """
     Check if there are items for reorder and print
-    them to the console and if not print
-    message to user that nothing needs reordered
+    them to the console and print path to reorder
+    csv file and if not print message to user that
+    nothing needs reordered
     """
     if list == []:
         print("------------------------------")
