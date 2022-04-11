@@ -1,6 +1,6 @@
 # STOCK PROGRAM
 
-Stock is a simple program that allows the user to input the sales quantity for 3 products (coke, fanta and water) and the program writes this sales information to a sales file (comma delimited file).  A current stock file (also comma delimited) holds the current stock levels of the 3 products and also the reorder level.  The program updates the stock levels and writes the updated stock back to the stock file.  The program then checks if the products need to be reordered, whether the stock level is below the reorder level and if so the product and the current stock level is printed to the console and also written to a reorder file(csv).
+Stock is a simple program that allows the user to input multiple products, with the quantity of stock they have and also the quantity at which they need to reorder the product.  This information is written to a stock file (comma delimited file).  The user is then asked for the quantity of sales of each product they have in stock and the program writes this sales information to a sales file (comma delimited file).  The program updates the stock levels and writes the updated stock quantity back to the stock file. It also updates the is-audited value on the sales file.  The program then checks if the products need to be reordered, whether the stock level is below the reorder level and if so the product and the current stock level is printed to the console and also written to a reorder file(comma delimited file).
 
 The live link to Stock program is https://stock-dm.herokuapp.com/
 
@@ -8,11 +8,11 @@ The live link to Stock program is https://stock-dm.herokuapp.com/
 
 ### For user:
 
-- to automate a stock process so that the user can easily see after inputting their sales if they need to reorder stock and how much stock they currently have. 
+- to automate a stock process so that the user can easily enter their products with stock quantity and reorder level quantity.  They then can input their sales for each product and the program updates their stock quantity and also displays what products need to be reordered.  The reorder information is also written to a csv file.  The name and path to this file is displayed for easy access for the user.  
 
 ### The data model
 
-#### Stock file: (this file is already set up)
+#### Stock file: (user inputs each product with stock quantity and reorder level)
 - item:
 - quantity:
 - reorder-level
@@ -33,47 +33,82 @@ To create the structure of the stock program I created a flow chart using Lucid 
 
 ## Features
 
-The initial screen welcomes the user and shows the current stock levels.
+1 The initial screen welcomes the user to Stock program.  Let's get your stock ready! and then askes the user to enter the name of the product
 
-![start of program](images/start_of_program.png)
+![start of program](images/initial_screen.png)
 
-It then asks the user to input sales data for the items.  The program checks that the data entered is a non negative number and also that the sales figure is not greater than the stock levels i.e. 40.
-So if the user types letters or anything that is not a number, they get this message back and asked to enter the sales figures again
+2 When the user enters the name of the product, the user is asked to enter the current quantity of the product in stock. The program checks that the user enters a valid number 0 or greater.
 
-![error message for not a number](images/error_not_number.png)
+![asked to enter stock quantity](images/stock_enter_quantity.png)
 
-If the user types a negative number, they get this message and asked to enter the sales figures again
+If the user enters data that is not a number an error message is printed and the user is asked to reenter the data.
 
-![error message for negative number](images/error_negative.png)
+![stock not a number](images/stock_not_number.png)
 
-If the user types a number greater than 40, (this is the initial stock of the items), they get this message and asked to enter the sales figures again
+If the user enters a negative number an error message is printed and they are asked to enter the data again.
 
-![error message for a number greater than 40](images/error_greater_than_40.png)
+![stock negative number](images/stock_minus.png)
 
-Even if nothing is entered or the user hits enter by accident, they get the following message
+3 When the user enters the stock quantity of the product, they are then asked for the reorder quantity of the product. The program again checks the user enters a valid number 0 or greater, if a number is not entered or a negative number is enetered similar messages to above are printed and the user is asked to reenter the data.
 
-![error message for nothing entered](images/error_nothing_entered.png)
+![asked to enter reorder quantity](images/stock_enter_reorder.png)
 
-The program writes to a sales file.
-A message comes up on the screen to tell the user that the sales file has been successfully updated.
-It uses the sales figures and the stock figures to work out the current stock level. 
-Another message comes up on the console to say that the stock quantity has been updated. 
-It then checks the current stock level against the reorder level, and if the stock level is below the reorder level, the product and the current stock level is written to the console and also a reorder file.
+4 When the user enters the reorder quantity, the user is then asked if they want to enter a new stock.  
 
-If an item has stock below the reorder level then the item is written to the console with it's current stock
-![reorder information](images/reorder_details.png)
+![asked to enter new stock](images/new_stock.png)
 
-If all the items have stock above the reorder level then there is nothing to reorder.
+5 If they enter yes they are then asked for the name of the product and loop through asking them for the quantity and the reorder quantity for each product the user enters.
 
-![nothing to reorder](images/nothing_reorder.png)
+![yes to enter new stock](images/yes_new_stock.png)
+
+6 If the user answers no, to do you want to enter a new stock, the program prints each product entered by the user, with the stock quantity.  It then asks the user what quantity of the first product entered did they sell.
+
+![finished entering stock](images/prints_stock.png)
+
+7 When the user enters the quantity of the product sold, the program checks that what the user enters is a valid number 0 or greater. It also checks that the amount entered by the user is not greater than the stock of the product. The program prints "Sales of 40 of coke has been recorded."  This is to highlight to the user what quantity was entered for sales.
+
+![asked to enter sales](images/enter_sales.png)
+
+8 The program asks for sales quantity for each product entered by the user. 
+
+![sales quantities entered](images/sales_entered.png)
+
+If anything other than a number is entered an error message is printed and the user is asked to reenter the quantity.
+
+![sales_not_number](images/sales_not_number.png)
+
+If a negative number is entered an error message is printed and the user is asked to reenter the quantity.
+
+![sales negative number](images/sales_negative.png)
+
+If the number entered is greater than the stock of that product, an error message is printed and the user is asked to reenter the quantity. The error message lets the user know the current stock and that the sales cannot be greater than that.
+
+![sales greater than stock](images/sales_greater_stock.png)
+
+9 The program gets the stock and takes away the sales quantity, to give the new stock quantity. 
+The program updates the quantity in the stock file and updates the is_audited field in the sales file to True.
+It then checks the reorder quantity and if the new stock quantity is below the reorder quantity, the product is written to the console with the new stock quantity.  This is done for each product.
+
+![reorder products printed](images/reorder.png)
+
+10 The reorder products are also written to a reorder file with the same information that is printed to the console.  This reorder comma delimited file has a date and time stamp so that if the program is run multiple times in a day the user will be able to tell the files appart. Finally the path to the comma delimited reorder file is printed to the console so that the user can get access to the file if needed.
+
+![path to reorder file](images/file_path.png)
+
+11 If none of the products need to be reordered, a message is printed to the console to say that nothing needs to be reordered. The file path to the reorder file is not shown in this instance.
+
+![nothing to reorder](images/nothing_to_reorder.png)
+
 
 ### future features
 
-Allow the user to update stock quantities when they reorder stock.
+Allow the user to update the stock when they have reordered stock.
 
 ## Libraries used
 
 I used csv library to read from and write to the comma delimited files (csv files).
+I used the datetime library to put a date and time stamp on the reorder file.
+I used the os library to give the user the path to the reorder comma delimited file.
 
 ## Testing and Validation
 
@@ -83,14 +118,25 @@ The python code was checked with PEP8 validator and passed with no errors found.
 
 ### Manual Testing
 
-I checked with the user input that the data had to be a number, it had to be 0 or greater and not greater than 40 (as this was the initial stock level of all the products).
+I checked that when I entered something that wasn't a number for the current stock quantity I got the error message.
+I checked if I entered a negative number for stock quantity that I got the error message.
+I checked if I didn't enter anything for stock quantity that I got an error message.
+I checked that when i entered a non number or nothing for sales quantity, that I got an error message.
+I checked that when I entered a negative number for sales quantity that I got an error message.
+I checked when I entered a number greater than the current stock, that I got an error message.
+I checked when I entered valid data that it was correctly printed to the console and also to the files.
+I checked that the updated stock quantity was correct in the stock file.
+I checked that the is_audited field was updated in the sales file.
+I checked that the correct products and quantities were printed for reorder and also written to the reorder file.
+I checked when there was nothing to be reordered that the correct message was printed to the console.
+I checked that a reorder file was created with the correct date and time stamp.
 
 ### Bugs found
 
-line too long in code but couldn't find a way to put it over 2 lines that didn't throw an error
-time stamp is UTC so Ireland is UTC+1
 
 ### unfixed bugs
+
+The date and time stamp on the reorder file is UTC timezone, Ireland is UTC +1. 
 
 ## Deployment
 
@@ -121,7 +167,7 @@ To deploy this page to Heroku from my GitHub repository I followed the steps bel
 
 - python
 - code institute front-end built from the template
-- heroku used to deploy
+- heroku
 
 ## Credits
 
@@ -130,4 +176,6 @@ To deploy this page to Heroku from my GitHub repository I followed the steps bel
 - stackoverflow for validation in a function
 - Lucidchart for my flow chart
 - tinyPNG to compress images
+- Okwudiri Okoro, my mentor for his help and also for aspiring me!
+- My MSLETB cohort for their support and sharing knowledge 
 
